@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Switch, Route, Link, useParams, useHistory
 } from "react-router-dom";
+import {useField} from './hooks/index'
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
@@ -52,20 +53,32 @@ const CreateNew = (props) => {
   
   let history = useHistory();
 
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
-
+  const content = useField('content')
+  const author = useField('author')
+  const info = useField('info')
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    let contentText= content.value
+    let authorText= author.value
+    let infoText= info.value
+
+    console.log(contentText)
+
     props.addNew({
-      content,
-      author,
-      info,
+      content: contentText,
+      author: authorText,
+      info: infoText,
       votes: 0
     })
     history.push('/')
+  }
+
+  const resetField = () =>{
+    content.resetField()
+    author.resetField()
+    info.resetField()
   }
 
   return (
@@ -74,18 +87,31 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input
+          type={content.type}
+          value={content.value}
+          onChange={content.onChange} 
+        /> 
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input
+          type={author.type}
+          value={author.value}
+          onChange={author.onChange} 
+        /> 
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input
+          type={info.type}
+          value={info.value}
+          onChange={info.onChange} 
+        /> 
         </div>
         <button>create</button>
       </form>
+      <button onClick={resetField}>reset</button>
     </div>
   )
 
@@ -127,8 +153,7 @@ const App = () => {
     },5000)
   }
 
-  const anecdoteById = (id) =>
-    anecdotes.find(a => a.id === id)
+  const anecdoteById = (id) => anecdotes.find(a => a.id === id)
 
   const vote = (id) => {
     const anecdote = anecdoteById(id)
