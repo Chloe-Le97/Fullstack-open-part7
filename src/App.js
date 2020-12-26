@@ -119,8 +119,6 @@ const CreateNew = (props) => {
 
 const App = () => {
 
-  let history = useHistory();
-
   const padding = {
     paddingRight: 5
   }
