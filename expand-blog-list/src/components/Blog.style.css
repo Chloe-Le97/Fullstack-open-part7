@@ -1,0 +1,29 @@
+.blog{
+    width: 50%;
+    padding: 10px;
+    border: 3px solid black;
+    margin: 15px auto;
+    background-color: white;
+}
+.blog-list{
+    margin-top: 15px;
+}
+.blog-details{
+    background-color: white;
+    padding: 25px;
+    width: 70%;
+    margin: 0 auto;
+    box-shadow: 1px 3px 18px -10px rgba(0, 0, 0, 0.75);
+}
+.comment-input{
+    margin-top: 15px;
+}
+.comment{
+    padding: 5px;
+}
+.comment-section{
+    margin-top: -5px;
+}
+.blog-url{
+    padding: 5px;
+}

@@ -1,0 +1,30 @@
+.app_user{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.logout_button{
+  display: block;
+  height: 40px;
+}
+.header{
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #fff;
+}
+.App{
+  background-color: #ebf2fd;
+  min-height: 100vh;
+  text-align: center;
+}
+.title_app{
+  color: rgb(81, 105, 141);
+}
+.app_btn_header{
+  margin-left: 15px !important;
+}
+.app_login_btn{
+  margin-left: 15px !important;
+}
