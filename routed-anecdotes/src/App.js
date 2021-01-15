@@ -37,7 +37,7 @@ const About = () => (
       such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative.
       An anecdote is "a story with a point."</em>
 
-    <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
+    <p>Software     engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
   </div>
 )
 
