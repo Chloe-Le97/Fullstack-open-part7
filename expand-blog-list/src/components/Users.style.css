@@ -2,8 +2,11 @@
     width: fit-content;
     background-color: white;
     margin: 0 auto;
-    padding: 25px;
+    /* padding: 25px; */
 }
 th td{
     border: 2px solid black;
+}
+.user_row:nth-child(odd){
+    background-color: rgb(240, 240, 240);
 }

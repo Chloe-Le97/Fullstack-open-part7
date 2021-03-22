@@ -5,14 +5,20 @@ import {
   BrowserRouter as Router,
   Switch, Route, Link
 } from "react-router-dom";
-import './Blog.style.css'
+import {likeBlog} from '../reducers/blogReducer'
+import {commentBlog} from '../reducers/blogReducer'
+import {notification} from '../reducers/notificationReducer'
+import {deleteBlog} from '../reducers/blogReducer'
+import Blog from './Blog';
 
 const BlogList = (props) => {
 
   return(
   <div className='blog-list'>
     {props.blogs.map(blog=>(
-     <div className='blog'><Link to={`/blogs/${blog.id}`}>{blog.title}</Link></div>
+     <div className='blog'>
+       <Blog blog={blog} likeBlog={props.likeBlog} user={props.user} notification={props.notification} deleteBlog={props.deleteBlog} commentBlog={props.commentBlog}/>
+      </div>
     ))}
   
   </div>
@@ -20,11 +26,13 @@ const BlogList = (props) => {
 }
 
 const mapStateToProps =(state)=>{
-  const sortBlogs = state.blogs.sort(function(a,b){
-    return b.likes - a.likes
-  })
-  return {blogs: sortBlogs}
+
+  return {user:state.blogUser}
+}
+
+const mapDispatchToProps ={
+  likeBlog,notification,deleteBlog,commentBlog
 }
 
 
-export default connect(mapStateToProps)(BlogList)
+export default connect(mapStateToProps,mapDispatchToProps)(BlogList)

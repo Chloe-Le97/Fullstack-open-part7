@@ -1,3 +1,4 @@
+
 .app_user{
   display: flex;
   justify-content: space-around;
@@ -5,26 +6,56 @@
 }
 .logout_button{
   display: block;
-  height: 40px;
+  height: 32px;
 }
 .header{
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  background-color: #fff;
+  background-color: #f8f9faa9;
+  position: fixed;
+  top: 0;
+  z-index: 5;
+
 }
 .App{
-  background-color: #ebf2fd;
   min-height: 100vh;
-  text-align: center;
+  background-color: #fafafa;
+  padding: 0;
+  margin: 0;
+}
+.main{
+  padding-top: 45px;
 }
 .title_app{
-  color: rgb(81, 105, 141);
+  text-align: center;
 }
 .app_btn_header{
-  margin-left: 15px !important;
+  height: 32px;
+  margin-right: 15px !important;
 }
 .app_login_btn{
   margin-left: 15px !important;
+}
+
+.search_blog{
+  width: 350px;
+}
+
+@media only screen and (max-width: 600px){
+  .search_blog{
+    width: 200px;
+  }
+
+  .header{
+    display: block;
+  }
+
+  .app_user{
+    justify-content: flex-end;
+  }
+  .main{
+    padding-top: 65px;
+  }
 }

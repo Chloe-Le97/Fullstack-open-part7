@@ -17,20 +17,22 @@ const Users = ({users}) =>{
         <div className='users-list'>
              
             <Table className='users-table' aria-label="simple table">
-                <TableHead>
+                <TableHead style={{backgroundColor:"#454444"}}>
                     <TableRow>
-                        <TableCell><strong>Username</strong></TableCell>
-                        <TableCell><strong>Blog(s) created</strong></TableCell>
+                        <TableCell style={{color:"white"}}><strong>Username</strong></TableCell>
+                        <TableCell style={{color:"white"}}><strong>Blog(s) created</strong></TableCell>
                     </TableRow>
                 </TableHead>
-                {users.map(user=>( 
+    
                 <TableBody>
-                    <TableRow key={user.id}>
+                {users.map(user=>( 
+                    <TableRow className="user_row" key={user.id}>
                         <TableCell><Link to={`/users/${user.id}`}>{user.username}</Link></TableCell>
                         <TableCell>{user.blogs.length}</TableCell>
                     </TableRow>
+                ))}  
                 </TableBody>
-                ))}          
+                        
             </Table>
         </div>
     )

@@ -38,19 +38,10 @@ export const logIn = (username,password) => {
                 type:'SET_USER',
                 data: user
             })
-            dispatch({
-                type:'SET_NOTI',
-                data: 'Sign in successfully'
-            })
-            setTimeout(()=>{
-                dispatch({
-                    type:'REMOVE_NOTI'
-                })
-            },5000)
         }catch(error){
             dispatch({
                 type:'SET_NOTI',
-                data: 'Wrong credential'
+                data: {message:'Wrong credential',status:'fail'}
             })
             setTimeout(()=>{
                 dispatch({

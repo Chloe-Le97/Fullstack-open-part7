@@ -3,11 +3,14 @@ import './Blog.style.css';
 import {
   BrowserRouter as Router,
   Switch, Route, Link,useParams,useHistory
-} from "react-router-dom"
-import {likeBlog} from '../reducers/blogReducer'
-import {commentBlog} from '../reducers/blogReducer'
-import {notification} from '../reducers/notificationReducer'
-import {deleteBlog} from '../reducers/blogReducer'
+} from "react-router-dom";
+import { Button } from "@material-ui/core";
+import background from '../assets/back.jpg';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
+
 import { connect } from 'react-redux';
 
 
@@ -15,12 +18,13 @@ const Blog = (props) => {
   const history = useHistory()
 
   const [comment,setComment] = useState('');
+  const [seeMore,setSeeMore] = useState(false)
+
+  const hideWhenVisible = { display: seeMore ? 'none' : '' }
+  const showWhenVisible = { display: seeMore ? '' : 'none' }
 
 
-  const id = useParams().id;
-  const blog = props.blogs.find(n => n.id == id);
-
-  if(!blog){return null}
+  const blog = props.blog;
 
   const remove = async (blog) =>{
     if(window.confirm(`Do you want to delete blog post ${blog.title}?`)){
@@ -42,14 +46,18 @@ const Blog = (props) => {
 
     props.likeBlog(blog.id,updateBlog)
 
-    props.notification(`You have voted for '${blog.title}' `,5000)
+    props.notification(`You have voted for '${blog.title}'`,'success',5000)
 }
 
   const commentAction = (event) =>{
     event.preventDefault()
     
+    if(comment==''){
+     return alert('Please type the comment')
+    }
+
     const comments = blog.comments
-    const newComments = [...comments,comment]
+    const newComments = [comment,...comments]
 
     console.log(newComments)
 
@@ -67,51 +75,72 @@ const Blog = (props) => {
 
   }
 
+  const toBlog = (url) => {
+    if(window.confirm(`You are directing to page ${url}. Continue?`)){
+      window.open(url, "_blank")
+    }
+  }
+
   return(
-  <div className='blog-details'>
-    
-      <div >
-        <h2>{blog.title} - {blog.author} &nbsp; </h2>
+  <div className='blog-details-container'>
+
+    <div onClick={()=>toBlog(blog.url)} className="blog_link">
+      <div className="blog_title">
+        {blog.title} - {blog.author}
       </div>
-      <div className='blog-url'>
-        <a href={blog.url} target="_blank" rel='noopener noreferrer'>{blog.url}</a> 
-        <div>Likes: {blog.likes} <button type='button' onClick={()=>onLike(blog)} className='like'>like</button></div>
-        <div> Added by <strong>{blog.user.username}</strong>  &nbsp;
-        {props.user&&props.user.username==blog.user.username?(<button onClick={() => remove(blog)}>Remove</button>):(null)}
+      <img src={background} className="blog_title_background"></img>    
+    </div>
+
+    <div className='blog-details'>
+      <div> <strong> Added by </strong> {blog.user.username}  &nbsp;
+        {props.user&&props.user.username==blog.user.username?(<FontAwesomeIcon icon={faTrashAlt} onClick={() => remove(blog)} color="red" className="remove"/>):(null)}
         </div>
-      </div>
- 
-      <h3>Comments</h3>
-      <div className='comment-section'>
-      {blog.comments?(  <div>{blog.comments.map(cmt =>(
-        <li className='comment'>
-          {cmt}
-        </li>
-      ))}</div>):(null)}
+        <div> <strong>Likes: </strong> {blog.likes} <FontAwesomeIcon icon={faThumbsUp}  onClick={()=>onLike(blog)} className='like' color="green"/></div>
+    </div>  
+    
+    <div style={hideWhenVisible}>
+      <div style={{margin:'auto',width:'fit-content',paddingBottom:15}}>
+        <Button variant="outlined" color="primary" className='hidden_show_btn' onClick={()=>setSeeMore(true)}>See More</Button>
+      </div> 
+      
+    </div>
+      <div style={showWhenVisible}>
+        <Button style={{marginLeft:15, marginBottom: 15, height:25}} variant="outlined" color="primary" onClick={()=>setSeeMore(false)}>See Less</Button>
+        <div className='comment-section'>
+          {blog.comments.length>0?(<div >
+          <div><strong>Comments</strong></div>
+          <div className='comment_container'>
+          {blog.comments.map(cmt =>(
+          <li className='comment'>
+            {cmt}
+            </li>
+          ))}</div></div>):(null)}
+        </div>
 
-      <form className='comment-input' onSubmit={commentAction}>
-        <input
-              id='comment'
-              value={comment}
-              onChange={({target})=>setComment(target.value)}
-            />
-        <button type="submit">Comment</button>
-      </form>
+        <form className='comment-input' onSubmit={commentAction}>
+          <input
+                className='comment_input_field'
+                placeholder="Add a comment"
+                value={comment}
+                onChange={({target})=>setComment(target.value)}
+          />
+          <button className="submit_comment" type="submit">Comment</button>
+        </form>
       </div>
 
+      
+    
     </div>
   )
 }
 
-const mapStateToProps =(state)=>{
-  const sortBlogs = state.blogs.sort(function(a,b){
-    return b.likes - a.likes
-  })
-  return {blogs: sortBlogs,user:state.blogUser}
-}
+// const mapStateToProps =(state)=>{
+//   const sortBlogs = state.blogs.sort(function(a,b){
+//     return b.likes - a.likes
+//   })
+//   return {blogs: sortBlogs,user:state.blogUser}
+// }
 
-const mapDispatchToProps ={
-  likeBlog,notification,deleteBlog,commentBlog
-}
 
-export default connect(mapStateToProps,mapDispatchToProps)(Blog)
+
+export default Blog

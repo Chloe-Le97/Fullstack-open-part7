@@ -14,14 +14,15 @@ const User = ({users}) =>{
       }
 
     return(
-        <div>
-            <h2>
+        <div style={{textAlign:'center'}}>
+            <h2>User Profile</h2>
+            <h1 style={{color:'#33408d'}}>
                 {user.username}
-            </h2>
+            </h1>
             <h3>Added blogs</h3>
              {
                  user.blogs.map(blog=>(
-                     <li>{blog.title}</li>
+                     <li style={{padding:5}}>{blog.title}</li>
                  ))
              }
         </div>

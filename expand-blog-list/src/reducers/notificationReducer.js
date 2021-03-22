@@ -11,12 +11,15 @@ const notiReducer = (state='',action) =>{
 
 }
 
-export const notification = (data,time) =>{
+export const notification = (message,status,time) =>{
     let timeOutId 
     return async dispatch=>{
         await dispatch({
             type:'SET_NOTI',
-            data
+            data:{
+                message:message,
+                status:status
+            }
         })
         
         if(timeOutId){

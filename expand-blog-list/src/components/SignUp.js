@@ -3,8 +3,11 @@ import signUpService from '../services/signup';
 import blogService from '../services/blogs'
 import { connect } from 'react-redux';
 import {notification} from '../reducers/notificationReducer'
-import {logIn} from '../reducers/userReducer'
-import {setUser} from '../reducers/userReducer'
+import {logIn} from '../reducers/userReducer';
+import {setUser} from '../reducers/userReducer';
+import {TextField} from '@material-ui/core';
+import { Button } from "@material-ui/core";
+import './AuthForm.style.css';
 
 const SignUp = (props) =>{
 
@@ -12,31 +15,13 @@ const SignUp = (props) =>{
     const [username, setUsername] = useState('') 
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState('')
-    const [signUpVisible, setSignUpVisible] = useState(false)
 
-    const signIn = { display: signUpVisible ? '' : 'none' }
-    const signUp = { display: signUpVisible ? 'none' : '' }
-
-    const handleLogin = async (event) => {
-      console.log(props)
-        event.preventDefault()  
-        try {
-          props.logIn(username,password)
-          // props.notification(`Sign In successfully`,5000)
-          setUsername('')
-          setPassword('')
-          setRepeatPassword('')
-          props.setOpenSignUp(false)
-        } catch (error) {
-          // props.notification('Wrong credentials',5000)
-        }
-      }
     
       const handleSignUp = async (event) => {
         event.preventDefault()
         
         if(repeatPassword != password){
-            alert('Repeat password is not the same with password, please type again')
+          return alert('Repeat password is not the same with password, please type again')
         }
         else{
           try {
@@ -49,85 +34,66 @@ const SignUp = (props) =>{
             ) 
             blogService.setToken(user.token)
             props.logIn(username,password)
-            props.notification(`Sign Up successfully`,5000)
+            props.notification('Sign Up successfully',"success",5000)
             setUsername('')
             setPassword('')
             setRepeatPassword('')
             props.setOpenSignUp(false)
           } catch (exception) {
-            props.notification('Wrong credentials',5000)
+            props.notification('Wrong credentials',"fail",5000)
           }
         }
       }
 
+    const openSignInFunc = () => {
+      props.setOpenSignUp(false);
+      props.setOpenSignIn(true)
+    }
+
     return(
         <div>
-            <div className='blog_auth'>
-                <div style={signIn}>
-                    <form onSubmit={handleLogin}>
-                      <h2>Login</h2>
-                        <div>
-                            Username &nbsp;
-                            <input
-                            id='username'
-                            type="text"
-                            value={username}
-                            name="Username"
-                            onChange={({ target }) => setUsername(target.value)}
-                            />
-                        </div>
-                        <div>
-                            Password &nbsp;
-                            <input
-                            id='password'
-                            type="password"
-                            value={password}
-                            name="Password"
-                            onChange={({ target }) => setPassword(target.value)}
-                            />
-                        </div>
-                        <button id="login-button" type="submit">Login</button>
-                        <div style={{color: "red"}} onClick={() => setSignUpVisible(!signUpVisible)} className='blog-btn'> Not a member? <strong>Sign Up</strong></div>
-                    </form> 
+          <div className='blog_auth'>
+            <div>
+              <form onSubmit={handleSignUp}>
+                <h2>Sign Up</h2>
+                <div>
+                    <TextField
+                    id='username'
+                    type="text"
+                    value={username}
+                    variant="outlined"
+                    label="Username"
+                    style={{marginBottom:10}}
+                    onChange={({ target }) => setUsername(target.value)}
+                    />
                 </div>
-          <div style={signUp}>
-           <form onSubmit={handleSignUp}>
-             <h2>Sign Up</h2>
-            <div>
-                Username &nbsp;
-                <input
-                id='username'
-                type="text"
-                value={username}
-                name="Username"
-                onChange={({ target }) => setUsername(target.value)}
-                />
-            </div>
-            <div>
-                Password &nbsp;
-                <input
-                id='password'
-                type="password"
-                value={password}
-                name="Password"
-                onChange={({ target }) => setPassword(target.value)}
-                />
-            </div>
-            <div>
-                Repeat password &nbsp;
-                <input
-                id='password'
-                type="password"
-                value={repeatPassword}
-                name="Password"
-                onChange={({ target }) => setRepeatPassword(target.value)}
-                />
-            </div>
-            <button id="login-button" type="submit">Sign Up</button>
-            <div style={{color: "red"}} onClick={() => setSignUpVisible(!signUpVisible)} className='blog-btn'> Already a member? <strong>Login</strong></div>
-         </form> 
+                <div>
+                    <TextField
+                    id='password'
+                    type="password"
+                    value={password}
+                    label="Password"
+                    variant="outlined"
+                    style={{marginBottom:10}}
+                    onChange={({ target }) => setPassword(target.value)}
+                    />
+                </div>
+                <div>
+                    <TextField
+                    id='repeatPassword'
+                    type="password"
+                    value={repeatPassword}
+                    variant="outlined"
+                    label="Repeat Password"
+                    style={{marginBottom:10}}
+                    onChange={({ target }) => setRepeatPassword(target.value)}
+                    />
+                </div>
+                <Button style={{width: 210, margin:10}} variant="contained" color="primary" id="login-button" type="submit">Sign Up</Button>
+                <div style={{color: "red"}} onClick={openSignInFunc} className='blog-btn'> Already a member? <strong>Login</strong></div>
+            </form> 
           </div>
-            </div>
+        </div>
         
         
         </div>

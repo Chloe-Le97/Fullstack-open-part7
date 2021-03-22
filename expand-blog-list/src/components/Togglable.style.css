@@ -1,0 +1,15 @@
+.togglable_div{
+    max-width: 260px;
+    margin: 20px auto;
+    border: 3px solid #8891c4;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+}
+.togglable_div:hover{
+    border: 3px solid #33408d;
+    box-shadow: 0 0 10px #c2caf769;
+}
+.togglable_container{
+    text-align: center;
+}
